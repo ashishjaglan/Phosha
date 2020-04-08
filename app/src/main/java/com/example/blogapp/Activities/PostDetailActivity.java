@@ -1,11 +1,13 @@
 package com.example.blogapp.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,7 +42,7 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView txtPostDesc, txtPostTitle, txtPostDateName;
     EditText editTextComment;
     String PostKey;
-    Button addButton;
+    Button addButton, see_photos;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
@@ -62,54 +64,56 @@ public class PostDetailActivity extends AppCompatActivity {
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         getSupportActionBar().hide();
 
-        rvComment=findViewById(R.id.recyclerView);
+//        rvComment=findViewById(R.id.recyclerView);
 
         imgPost=findViewById(R.id.post_detail_img);
         imgUserPost=findViewById(R.id.post_detail_user_img);
-        imgCurrentUser=findViewById(R.id.post_detail_currentuser_img);
+//        imgCurrentUser=findViewById(R.id.post_detail_currentuser_img);
 
         txtPostDesc=findViewById(R.id.post_detail_desc);
         txtPostTitle=findViewById(R.id.post_detail_title);
         txtPostDateName=findViewById(R.id.post_detail_date_name);
 
-        editTextComment=findViewById(R.id.post_detail_comment);
-
-        addButton=findViewById(R.id.post_detail_add_comment);
+        txtPostDesc.setMovementMethod(new ScrollingMovementMethod());
+//
+//        editTextComment=findViewById(R.id.post_detail_comment);
+//
+//        addButton=findViewById(R.id.post_detail_add_comment);
+        see_photos=findViewById(R.id.see_photos);
 
         firebaseAuth=FirebaseAuth.getInstance();
         currentUser=firebaseAuth.getCurrentUser();
         firebaseDatabase=FirebaseDatabase.getInstance();
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                addButton.setVisibility(View.INVISIBLE);
-                DatabaseReference commentReference=firebaseDatabase.getReference(COMMENT_KEY).child(PostKey).push();
-                String editComment=editTextComment.getText().toString();
-                String uid=currentUser.getUid();
-                String userImg=currentUser.getPhotoUrl().toString();
-                String userName=currentUser.getDisplayName();
-
-                Comment comment=new Comment(editComment,uid,userImg,userName);
-
-                commentReference.setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(PostDetailActivity.this, "comment added", Toast.LENGTH_SHORT).show();
-                        editTextComment.setText("");
-                        addButton.setVisibility(View.VISIBLE);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PostDetailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        addButton.setVisibility(View.VISIBLE);
-                    }
-                });
-            }
-        });
-
+//        addButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                addButton.setVisibility(View.INVISIBLE);
+//                DatabaseReference commentReference=firebaseDatabase.getReference(COMMENT_KEY).child(PostKey).push();
+//                String editComment=editTextComment.getText().toString();
+//                String uid=currentUser.getUid();
+//                String userImg=currentUser.getPhotoUrl().toString();
+//                String userName=currentUser.getDisplayName();
+//
+//                Comment comment=new Comment(editComment,uid,userImg,userName);
+//
+//                commentReference.setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(PostDetailActivity.this, "comment added", Toast.LENGTH_SHORT).show();
+//                        editTextComment.setText("");
+//                        addButton.setVisibility(View.VISIBLE);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(PostDetailActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        addButton.setVisibility(View.VISIBLE);
+//                    }
+//                });
+//            }
+//        });
 
         String postimg=getIntent().getExtras().getString("postImg");
         Glide.with(this).load(postimg).into(imgPost);
@@ -117,20 +121,31 @@ public class PostDetailActivity extends AppCompatActivity {
         String postUserImg=getIntent().getExtras().getString("userPic");
         Glide.with(this).load(postUserImg).into(imgUserPost);
 
-        String postTitle=getIntent().getExtras().getString("title");
+        final String postTitle=getIntent().getExtras().getString("title");
         txtPostTitle.setText(postTitle);
 
         String postDesc=getIntent().getExtras().getString("description");
         txtPostDesc.setText(postDesc);
 
-        Glide.with(this).load(currentUser.getPhotoUrl()).into(imgCurrentUser);
+//        Glide.with(this).load(currentUser.getPhotoUrl()).into(imgCurrentUser);
 
         PostKey=getIntent().getExtras().getString("postKey");
 
         String date=timeStamptoString(getIntent().getExtras().getLong("postDate"));
         txtPostDateName.setText(date);
 
-        inirvComment();
+        see_photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent see_photos_activity = new Intent(getApplicationContext(), SeePhotos.class);
+                see_photos_activity.putExtra("title", postTitle);
+                see_photos_activity.putExtra("postKey",PostKey);
+                startActivity(see_photos_activity);
+                //finish();
+            }
+        });
+
+       // inirvComment();
 
     }
 

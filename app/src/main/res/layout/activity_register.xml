@@ -5,22 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.RegisterActivity">
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/reg"
+    android:layout_marginTop="35dp"
+    android:layout_marginLeft="20dp"
+    android:text="Sign up"
+    android:textColor="@color/colorPrimary"
+    android:textSize="35dp"/>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_below="@+id/reg"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="16dp"
+    android:padding="10dp"
     android:id="@+id/lin_layout">
 
 
     <ImageView
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:id="@+id/regUserPic"
-        android:layout_marginTop="30dp"
-        android:background="@raw/default_image"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/ic_person_black_24dp"
+        />
 
 
     <EditText
@@ -30,9 +40,10 @@
         android:id="@+id/regName"
         android:inputType="textPersonName"
         android:padding="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:textSize="14dp"
         android:background="@drawable/reg_edittext_style"
         />
 
@@ -41,12 +52,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/regMail"
-        android:hint="Mail"
+        android:hint="Email Address"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:textSize="14dp"
         android:background="@drawable/reg_edittext_style"/>
 
     <EditText
@@ -54,48 +66,65 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:id="@+id/regPassword"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:inputType="textPassword"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
+        android:textSize="14dp"
         android:background="@drawable/reg_edittext_style"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Confirm Password"
-        android:id="@+id/regPassword2"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:inputType="textPassword"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/reg_edittext_style"/>
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Confirm Password"-->
+        <!--android:id="@+id/regPassword2"-->
+        <!--android:layout_marginLeft="30dp"-->
+        <!--android:layout_marginRight="30dp"-->
+        <!--android:inputType="textPassword"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:background="@drawable/reg_edittext_style"/>-->
 
 </LinearLayout>
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/rel"
     android:layout_below="@+id/lin_layout"
     android:gravity="center_horizontal">
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/regBtn"
-        android:text="Register"
-        android:layout_marginTop="20dp"
+        android:text="Sign up"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
         android:textColor="#fff"
-        android:textSize="18dp"
-        android:background="@drawable/reg_btn_style"/>
+        android:textSize="15dp"
+        android:background="@drawable/reg_btn_style"
+        />
 
     <ProgressBar
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         android:id="@+id/regprogress"/>
+
+
 </RelativeLayout>
 
+    <TextView
+        android:id="@+id/Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:clickable="true"/>
 </RelativeLayout>
 
 

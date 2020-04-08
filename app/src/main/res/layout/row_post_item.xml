@@ -26,10 +26,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/black_gradient" />
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/row_post_profile"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
@@ -37,6 +38,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:transitionName="user_img_transition"
         tools:srcCompat="@tools:sample/avatars[0]" />
+    <!--<ImageView-->
+        <!--android:id="@+id/row_post_profile"-->
+        <!--android:layout_width="55dp"-->
+        <!--android:layout_height="55dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/imageView6"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--android:transitionName="user_img_transition"-->
+        <!--tools:srcCompat="@tools:sample/avatars[0]" />-->
 
     <TextView
         android:id="@+id/row_post_title"

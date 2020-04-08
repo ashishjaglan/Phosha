@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -58,6 +59,7 @@ public class Home extends AppCompatActivity
     FirebaseUser currentUser;
     Dialog popAddPost;
     ImageView popUserImg, popupPostImg, popupAddBtn;
+    TextView username;
     EditText popupTitle, popupDesc;
     ProgressBar popupClickProgress;
     private Uri pickedImgUri=null;
@@ -75,6 +77,7 @@ public class Home extends AppCompatActivity
 
         mAuth=FirebaseAuth.getInstance();
         currentUser=mAuth.getCurrentUser();
+
 
 
         iniPopup();
@@ -258,6 +261,7 @@ public class Home extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
         }
 
@@ -276,10 +280,12 @@ public class Home extends AppCompatActivity
 
 
         } else if (id == R.id.nav_profile) {
+
             getSupportActionBar().setTitle("Profile");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
 
         } else if (id == R.id.nav_settings) {
+
             getSupportActionBar().setTitle("Settings");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
 

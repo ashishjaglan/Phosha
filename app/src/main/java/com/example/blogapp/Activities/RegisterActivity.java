@@ -12,11 +12,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.blogapp.R;
@@ -28,6 +30,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,14 +43,16 @@ public class RegisterActivity extends AppCompatActivity {
     Uri pickedImgUri;
     private FirebaseAuth mAuth;
 
-    private EditText regName, regMail, regPassword, regPassword2;
+    private EditText regName, regMail, regPassword;
     Button regBtn;
     ProgressBar regProgress;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
@@ -57,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
         regName = findViewById(R.id.regName);
         regMail = findViewById(R.id.regMail);
         regPassword = findViewById(R.id.regPassword);
-        regPassword2 = findViewById(R.id.regPassword2);
+        //regPassword2 = findViewById(R.id.regPassword2);
 
         regBtn = findViewById(R.id.regBtn);
 
@@ -65,6 +70,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         regBtn.setVisibility(View.VISIBLE);
         regProgress.setVisibility(View.INVISIBLE);
+
+        tv=findViewById(R.id.Login);
+
+        //tv.setText(Html.fromHtml(getString(R.string.any_text)));
+
+        String text = "<font color='#000000'>Already a user? </font> <font color='#118AB3'>Sign in</font>";
+        tv.setText(Html.fromHtml((text)));
 
         regUserPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,19 +95,19 @@ public class RegisterActivity extends AppCompatActivity {
                 final String name = regName.getText().toString();
                 final String email = regMail.getText().toString();
                 final String password = regPassword.getText().toString();
-                final String password2 = regPassword2.getText().toString();
+                //final String password2 = regPassword2.getText().toString();
 
                 regBtn.setVisibility(View.INVISIBLE);
                 regProgress.setVisibility(View.VISIBLE);
 
-                if(name.isEmpty() || email.isEmpty() || password.isEmpty() || password2.isEmpty()){
+                if(name.isEmpty() || email.isEmpty() || password.isEmpty() ){
                     Toast.makeText(RegisterActivity.this, "All fields are required !!", Toast.LENGTH_SHORT).show();
                     regBtn.setVisibility(View.VISIBLE);
                     regProgress.setVisibility(View.INVISIBLE);
                 }else{
                     regBtn.setVisibility(View.INVISIBLE);
                     regProgress.setVisibility(View.VISIBLE);
-                    register(name, email, password, password2);
+                    register(name, email, password);
 
                 }
             }
@@ -103,7 +115,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void register(final String name, String email, String password, String password2) {
+    private void register(final String name, String email, String password) {
+
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -135,6 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 .setDisplayName(name)
                                 .setPhotoUri(uri)
                                 .build();
+
 
                         currentUser.updateProfile(profileUpdate)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -191,6 +205,24 @@ public class RegisterActivity extends AppCompatActivity {
             pickedImgUri = data.getData();
             regUserPic.setImageURI(pickedImgUri);
         }
+    }
+
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser muser=mAuth.getCurrentUser();
+        if(muser!=null){
+            updateIU();
+        }
+//        else{
+//            regUser();
+//        }
+    }
+
+    public void onClick(View v) {
+        Intent LoginActivity = new Intent(getApplicationContext(), com.example.blogapp.Activities.LoginActivity.class);
+        startActivity(LoginActivity);
+        finish();
     }
 
 }

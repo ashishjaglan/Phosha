@@ -3,6 +3,8 @@
     package="com.example.blogapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,14 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.PostDetailActivity"></activity>
+        <activity android:name=".Helpers.ShowPicture"></activity>
+        <activity android:name=".Activities.SeePhotos" />
+        <activity android:name=".Activities.PostDetailActivity" />
         <activity
             android:name=".Activities.Home"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.LoginActivity"
-            android:label="@string/title_activity_login"
+            android:name=".Activities.RegisterActivity"
+            android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.HomeActivity" />
-        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.LoginActivity" />
     </application>
 
 </manifest>

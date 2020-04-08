@@ -7,10 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.blogapp.R;
@@ -27,14 +29,15 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginBtn;
     private ProgressBar loginProgress;
     private FirebaseAuth mauth;
-    private Intent HomeActivity;
+    private Intent HomeActivity, RegisterActivity;
+    private TextView tv;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         mail=findViewById(R.id.loginMail);
         password=findViewById(R.id.loginPassword);
@@ -42,6 +45,14 @@ public class LoginActivity extends AppCompatActivity {
         loginProgress=findViewById(R.id.loginprogress);
         mauth=FirebaseAuth.getInstance();
         HomeActivity=new Intent(this, com.example.blogapp.Activities.Home.class);
+        RegisterActivity=new Intent(this, com.example.blogapp.Activities.RegisterActivity.class);
+
+        tv=findViewById(R.id.Signup);
+
+        //tv.setText(Html.fromHtml(getString(R.string.any_text)));
+
+        String text = "<font color='#000000'>Don't have an account? </font> <font color='#118AB3'>Sign up</font>";
+        tv.setText(Html.fromHtml((text)));
 
         loginProgress.setVisibility(View.INVISIBLE);
 
@@ -91,5 +102,19 @@ public class LoginActivity extends AppCompatActivity {
         if(muser!=null){
             updateUI();
         }
+//        else{
+//            regUser();
+//        }
+    }
+
+//    private void regUser() {
+//        startActivity(RegisterActivity);
+//        finish();
+//    }
+
+    public void onClick(View v) {
+        Intent RegisterActivity = new Intent(getApplicationContext(), com.example.blogapp.Activities.RegisterActivity.class);
+        startActivity(RegisterActivity);
+        finish();
     }
 }
