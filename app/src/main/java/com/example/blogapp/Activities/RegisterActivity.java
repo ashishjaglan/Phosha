@@ -30,10 +30,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     static int REQUESCODE=1;
     Uri pickedImgUri;
     private FirebaseAuth mAuth;
+    DatabaseReference reference;
 
     private EditText regName, regMail, regPassword;
     Button regBtn;
@@ -115,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void register(final String name, String email, String password) {
+    private void register(final String name, final String email, String password) {
 
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -125,7 +129,26 @@ public class RegisterActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
 
-                            updateUserInfo(name, pickedImgUri, mAuth.getCurrentUser());
+                            String userid = mAuth.getUid();
+
+                            reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put("id", userid);
+                            hashMap.put("username", name);
+                            hashMap.put("imageURL", pickedImgUri.toString());
+                            hashMap.put("email", email);
+
+                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        updateUserInfo(name, pickedImgUri, mAuth.getCurrentUser());
+                                    }
+                                }
+                            });
+
+//                            updateUserInfo(name, pickedImgUri, mAuth.getCurrentUser());
                         }else{
                             Toast.makeText(RegisterActivity.this, "account creation failed", Toast.LENGTH_SHORT).show();
                             regBtn.setVisibility(View.VISIBLE);
