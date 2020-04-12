@@ -3,11 +3,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.ProfileFragment"
+    android:background="@color/black">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/rlv_lay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile" />
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cons_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#80000000"
+                android:backgroundTint="@color/lightblack"
+                android:text="Change"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/profile_pic"
+                app:layout_constraintEnd_toEndOf="@+id/profile_pic"
+                app:layout_constraintStart_toStartOf="@+id/profile_pic" />
+
+            <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                <!--android:id="@+id/edit_profile_pic"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:backgroundTint="@color/lightblack"-->
+                <!--android:src="@drawable/ic_edit_grey_24dp"-->
+                <!--app:layout_constraintEnd_toEndOf="@+id/profile_pic"-->
+                <!--app:layout_constraintTop_toTopOf="@+id/profile_pic" />-->
+
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cons_lay"
+            android:text="username"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:background="@drawable/profile_text_bg"
+            android:paddingLeft="40dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="50dp"
+            />
+    </RelativeLayout>
 
 </FrameLayout>

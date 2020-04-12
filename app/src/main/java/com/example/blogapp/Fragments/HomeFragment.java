@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.blogapp.Activities.Home;
 import com.example.blogapp.Adapters.PostAdapter;
 import com.example.blogapp.Models.Post;
 import com.example.blogapp.R;
@@ -87,6 +89,11 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         // Inflate the layout for this fragment
+
+        FloatingActionButton floatingActionButton = ((Home) getActivity()).getFloatingActionButton();
+        if (floatingActionButton != null) {
+            floatingActionButton.show();
+        }
         View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         postRecyclerView=fragmentView.findViewById(R.id.postRV);
         postRecyclerView.setHasFixedSize(true);

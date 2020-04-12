@@ -39,7 +39,7 @@
     <color name="colorPrimaryDark_gray">#696969</color>
     <color name="colorAccent_gray">#9E9E9E</color>
     <color name="navigationRouteLine_gray">#696969</color>
-    <color name="cardHourAndPhoneTextColor_gray">#696969</color>
+    <color name="cardHourAndPhoneTextColor_gray">#434650</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

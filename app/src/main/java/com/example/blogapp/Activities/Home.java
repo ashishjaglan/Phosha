@@ -62,6 +62,7 @@ public class Home extends AppCompatActivity
     TextView username;
     EditText popupTitle, popupDesc;
     ProgressBar popupClickProgress;
+    FloatingActionButton fab;
     private Uri pickedImgUri=null;
 
 
@@ -84,7 +85,7 @@ public class Home extends AppCompatActivity
 
         setupPopupImageClick();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -313,6 +314,10 @@ public class Home extends AppCompatActivity
 
 
         Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
+    }
+
+    public FloatingActionButton getFloatingActionButton() {
+        return fab;
     }
 
 }

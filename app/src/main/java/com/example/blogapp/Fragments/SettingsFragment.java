@@ -3,12 +3,14 @@ package com.example.blogapp.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.util.SortedList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.blogapp.Activities.Home;
 import com.example.blogapp.R;
 //import com.mapbox.api.directions.v5.models.DirectionsResponse;
 //import com.mapbox.geojson.Point;
@@ -74,6 +76,10 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        FloatingActionButton floatingActionButton = ((Home) getActivity()).getFloatingActionButton();
+        if (floatingActionButton != null) {
+            floatingActionButton.hide();
+        }
 
 
         return inflater.inflate(R.layout.fragment_settings, container, false);
