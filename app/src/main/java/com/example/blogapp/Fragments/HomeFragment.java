@@ -12,11 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.blogapp.Activities.Home;
+import com.example.blogapp.Activities.RegisterActivity;
 import com.example.blogapp.Adapters.PostAdapter;
 import com.example.blogapp.Models.Post;
+import com.example.blogapp.Models.PostListItem;
 import com.example.blogapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,8 +54,10 @@ public class HomeFragment extends Fragment {
     RecyclerView postRecyclerView;
     PostAdapter postAdapter;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference2;
+    FirebaseUser fuser;
     List<Post> postList;
+    List<PostListItem> userPostlist;
     Parcelable mListState;
 
     public HomeFragment() {
@@ -99,7 +106,9 @@ public class HomeFragment extends Fragment {
         postRecyclerView.setHasFixedSize(true);
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         firebaseDatabase=FirebaseDatabase.getInstance();
-        databaseReference=firebaseDatabase.getReference("Posts");
+//        databaseReference=firebaseDatabase.getReference("Posts");
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference2=FirebaseDatabase.getInstance().getReference("Users's_post_list").child(fuser.getUid());
         return fragmentView ;
     }
 
@@ -107,24 +116,73 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userPostlist = new ArrayList<>();
                 postList=new ArrayList<>();
                 for(DataSnapshot postsnap: dataSnapshot.getChildren()){
-                    Post post=postsnap.getValue(Post.class);
-                    postList.add(post);
+                    PostListItem postListItem = postsnap.getValue(PostListItem.class);
+                    userPostlist.add(postListItem);
+                }
+                update(userPostlist);
+
+            }
+
+
+            void update(final List<PostListItem> userPostlist) {
+
+                DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("Posts");
+                for(PostListItem i : userPostlist){
+                    //DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference("Posts").child(i.getPostid());
+
+                    databaseReference.child(i.getPostid()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Post post=dataSnapshot.getValue(Post.class);
+                            postList.add(post);
+                            if(postList.size()==userPostlist.size()){
+                                postAdapter=new PostAdapter(getActivity(),postList);
+                                postRecyclerView.setAdapter(postAdapter);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
 
-                postAdapter=new PostAdapter(getActivity(),postList);
-                postRecyclerView.setAdapter(postAdapter);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getActivity(), "database error", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+//
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                postList=new ArrayList<>();
+//                for(DataSnapshot postsnap: dataSnapshot.getChildren()){
+//                    Post post=postsnap.getValue(Post.class);
+//                    postList.add(post);
+//                }
+//
+//                postAdapter=new PostAdapter(getActivity(),postList);
+//                postRecyclerView.setAdapter(postAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

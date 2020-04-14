@@ -35,6 +35,7 @@ import com.example.blogapp.Fragments.HomeFragment;
 import com.example.blogapp.Fragments.ProfileFragment;
 import com.example.blogapp.Fragments.SettingsFragment;
 import com.example.blogapp.Models.Post;
+import com.example.blogapp.Models.PostListItem;
 import com.example.blogapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -234,6 +235,12 @@ public class Home extends AppCompatActivity
                 popAddPost.dismiss();
             }
         });
+
+        FirebaseDatabase database2 = FirebaseDatabase.getInstance();
+        DatabaseReference myRef2 = database2.getReference("Users's_post_list").child(currentUser.getUid()).push();
+        String key2=myRef2.getKey();
+        PostListItem postListItem = new PostListItem(key);
+        myRef2.setValue(postListItem);
     }
 
     @Override
