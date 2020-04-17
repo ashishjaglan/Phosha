@@ -72,7 +72,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/circle_bg"
-        android:src="@drawable/ic_create_black_24dp"
+        android:src="@drawable/ic_create_white_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/popup_post_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
