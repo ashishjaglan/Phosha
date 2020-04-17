@@ -3,15 +3,28 @@ package com.example.blogapp.Fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.util.SortedList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.blogapp.Activities.Home;
+import com.example.blogapp.Models.PostListItem;
+import com.example.blogapp.Models.UserListItem;
 import com.example.blogapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 //import com.mapbox.api.directions.v5.models.DirectionsResponse;
 //import com.mapbox.geojson.Point;
 //import com.mapbox.services.android.navigation.v5.navigation.MapboxNavigation;
@@ -39,6 +52,8 @@ public class SettingsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    FirebaseUser currentUser;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -83,6 +98,63 @@ public class SettingsFragment extends Fragment {
 
 
         return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+
+        final EditText eventcode = getActivity().findViewById(R.id.eventCode);
+        Button joinbtn = getActivity().findViewById(R.id.joinBtn);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        joinbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String eventCode = eventcode.getText().toString();
+
+                if (eventCode.isEmpty()) {
+                    Toast.makeText(getContext(), "Enter a code", Toast.LENGTH_SHORT).show();
+                } else{
+
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Posts");
+
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child(eventCode).exists()) {
+
+                                FirebaseDatabase database2 = FirebaseDatabase.getInstance();
+                                DatabaseReference myRef2 = database2.getReference("Users's_post_list").child(currentUser.getUid()).push();
+                                String key2 = myRef2.getKey();
+                                PostListItem postListItem = new PostListItem(eventCode);
+                                myRef2.setValue(postListItem);
+
+
+                                FirebaseDatabase database3 = FirebaseDatabase.getInstance();
+                                DatabaseReference myRef3 = database3.getReference("Post's_user_list").child(eventCode).push();
+                                String key3 = myRef3.getKey();
+                                UserListItem userListItem = new UserListItem(currentUser.getUid());
+                                myRef3.setValue(userListItem);
+
+                            } else {
+                                Toast.makeText(getActivity(), "Invalid code", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                }
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

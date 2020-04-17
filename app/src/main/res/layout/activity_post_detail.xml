@@ -82,6 +82,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/view"
                 app:layout_constraintVertical_bias="1.0" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/post_detail_user_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:transitionName="user_img_transition"
+                app:layout_constraintBottom_toBottomOf="@+id/post_detail_date_name"
+                app:layout_constraintStart_toEndOf="@+id/post_detail_date_name"
+                app:layout_constraintTop_toTopOf="@+id/post_detail_date_name"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"
+                android:background="#E71C23"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:text="Event code"
+                app:layout_constraintBottom_toBottomOf="@+id/post_detail_user_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/post_detail_user_img"/>
+
             <TextView
                 android:id="@+id/post_detail_desc"
                 android:layout_width="0dp"
@@ -93,6 +118,7 @@
                 android:lineSpacingExtra="6dp"
                 android:text="TextView TextView TextView TextView TextView TextView TextView TextView TextView TextView TextView TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView TextView"
                 android:textSize="14sp"
+                android:textIsSelectable="true"
                 android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -138,16 +164,7 @@
             <!--app:layout_constraintStart_toEndOf="@+id/post_detail_comment"-->
             <!--app:layout_constraintTop_toTopOf="@+id/post_detail_comment" />-->
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/post_detail_user_img"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="16dp"
-                android:transitionName="user_img_transition"
-                app:layout_constraintBottom_toBottomOf="@+id/post_detail_date_name"
-                app:layout_constraintStart_toEndOf="@+id/post_detail_date_name"
-                app:layout_constraintTop_toTopOf="@+id/post_detail_date_name"
-                tools:srcCompat="@tools:sample/avatars" />
+
             <!--<ImageView-->
                 <!--android:id="@+id/post_detail_user_img"-->
                 <!--android:layout_width="20dp"-->

@@ -92,10 +92,6 @@ public class ProfileFragment extends Fragment {
 
 
 
-//        View fragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
-//        FloatingActionButton fab = (FloatingActionButton) fragmentView.findViewById(R.id.fab);
-//        fab.hide();
-
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 

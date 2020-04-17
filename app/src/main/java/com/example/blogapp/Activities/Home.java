@@ -36,6 +36,7 @@ import com.example.blogapp.Fragments.ProfileFragment;
 import com.example.blogapp.Fragments.SettingsFragment;
 import com.example.blogapp.Models.Post;
 import com.example.blogapp.Models.PostListItem;
+import com.example.blogapp.Models.UserListItem;
 import com.example.blogapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,7 +60,7 @@ public class Home extends AppCompatActivity
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     Dialog popAddPost;
-    ImageView popUserImg, popupPostImg, popupAddBtn;
+    ImageView popupPostImg, popupAddBtn;
     TextView username;
     EditText popupTitle, popupDesc;
     ProgressBar popupClickProgress;
@@ -83,6 +84,8 @@ public class Home extends AppCompatActivity
 
 
         iniPopup();
+
+        popAddPost.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         setupPopupImageClick();
 
@@ -165,7 +168,7 @@ public class Home extends AppCompatActivity
         popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
         popAddPost.getWindow().getAttributes().gravity= Gravity.TOP;
 
-        popUserImg=popAddPost.findViewById(R.id.popup_user_pic);
+
         popupPostImg=popAddPost.findViewById(R.id.popup_post_img);
         popupTitle=popAddPost.findViewById(R.id.popup_title);
         popupDesc=popAddPost.findViewById(R.id.popup_desc);
@@ -210,7 +213,7 @@ public class Home extends AppCompatActivity
                     });
 
                 }else{
-                    Toast.makeText(Home.this, "Please verify all input fields and verify", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Home.this, "Please verify all input fields and continue", Toast.LENGTH_LONG).show();
                     popupClickProgress.setVisibility(View.INVISIBLE);
                     popupAddBtn.setVisibility(View.VISIBLE);
                 }
@@ -241,6 +244,13 @@ public class Home extends AppCompatActivity
         String key2=myRef2.getKey();
         PostListItem postListItem = new PostListItem(key);
         myRef2.setValue(postListItem);
+
+
+        FirebaseDatabase database3 = FirebaseDatabase.getInstance();
+        DatabaseReference myRef3 = database3.getReference("Post's_user_list").child(key).push();
+        String key3=myRef3.getKey();
+        UserListItem userListItem = new UserListItem(currentUser.getUid());
+        myRef3.setValue(userListItem);
     }
 
     @Override
@@ -268,7 +278,9 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.help) {
+
+
 
             return true;
         }
@@ -292,9 +304,9 @@ public class Home extends AppCompatActivity
             getSupportActionBar().setTitle("Profile");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new ProfileFragment()).commit();
 
-        } else if (id == R.id.nav_settings) {
+        } else if (id == R.id.join_event) {
 
-            getSupportActionBar().setTitle("Settings");
+            getSupportActionBar().setTitle("Join an Event");
             getSupportFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
 
         } else if(id==R.id.nav_signout){
