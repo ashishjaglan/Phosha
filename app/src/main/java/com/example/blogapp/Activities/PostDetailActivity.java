@@ -44,7 +44,7 @@ import java.util.Locale;
 public class PostDetailActivity extends AppCompatActivity {
 
     ImageView imgPost, imgUserPost, imgCurrentUser;
-    TextView txtPostDesc, txtPostTitle, txtPostDateName;
+    TextView txtPostDesc, txtPostTitle, txtPostDateName, popup_evcode;
     EditText editTextComment;
     String PostKey;
     Button addButton, see_photos, event_code;
@@ -171,6 +171,10 @@ public class PostDetailActivity extends AppCompatActivity {
         popup_event_code.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popup_event_code.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
         popup_event_code.getWindow().getAttributes().gravity= Gravity.CENTER;
+
+        popup_evcode=popup_event_code.findViewById(R.id.popup_postid);
+
+        popup_evcode.setText(PostKey);
 
     }
 
