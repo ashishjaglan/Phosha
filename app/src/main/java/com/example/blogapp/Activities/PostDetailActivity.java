@@ -1,13 +1,18 @@
 package com.example.blogapp.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,7 +47,8 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView txtPostDesc, txtPostTitle, txtPostDateName;
     EditText editTextComment;
     String PostKey;
-    Button addButton, see_photos;
+    Button addButton, see_photos, event_code;
+    Dialog popup_event_code;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser currentUser;
@@ -80,6 +86,7 @@ public class PostDetailActivity extends AppCompatActivity {
 //
 //        addButton=findViewById(R.id.post_detail_add_comment);
         see_photos=findViewById(R.id.see_photos);
+        event_code=findViewById(R.id.event_code);
 
         firebaseAuth=FirebaseAuth.getInstance();
         currentUser=firebaseAuth.getCurrentUser();
@@ -145,7 +152,25 @@ public class PostDetailActivity extends AppCompatActivity {
             }
         });
 
+        inipop();
+        event_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_event_code.show();
+            }
+        });
+
+
        // inirvComment();
+
+    }
+
+    private void inipop() {
+        popup_event_code=new Dialog(this);
+        popup_event_code.setContentView(R.layout.popup_event_code);
+        popup_event_code.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup_event_code.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
+        popup_event_code.getWindow().getAttributes().gravity= Gravity.CENTER;
 
     }
 
