@@ -5,7 +5,7 @@
     android:layout_centerVertical="true"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
-    android:background="@drawable/edittext_button_style_rounded"
+    android:background="@drawable/popup_eventcode_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -19,7 +19,8 @@
         android:lineSpacingExtra="6dp"
         android:text="TextView TextView TextView TextView TextView TextView TextView TextView TextView TextView TextView TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView TextView"
         android:textIsSelectable="true"
-        android:textSize="14sp"
+        android:textSize="20sp"
+        android:textColor="@color/lightblack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
