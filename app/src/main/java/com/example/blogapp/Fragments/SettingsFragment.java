@@ -1,12 +1,16 @@
 package com.example.blogapp.Fragments;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.util.SortedList;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.blogapp.Activities.Home;
+import com.example.blogapp.Activities.PostDetailActivity;
+import com.example.blogapp.Models.Post;
 import com.example.blogapp.Models.PostListItem;
 import com.example.blogapp.Models.UserListItem;
 import com.example.blogapp.R;
@@ -142,6 +148,33 @@ public class SettingsFragment extends Fragment {
                                 eventcode.setText("");
 
                                 Toast.makeText(getActivity(), "Event joined", Toast.LENGTH_LONG).show();
+
+                                final Intent postDetailActivity = new Intent(getActivity(), PostDetailActivity.class);
+                                DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference("Posts").child(eventCode);
+
+                                databaseReference1.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Post post=dataSnapshot.getValue(Post.class);
+                                        postDetailActivity.putExtra("title", post.getTitle());
+                                        postDetailActivity.putExtra("description", post.getDescription());
+                                        postDetailActivity.putExtra("postImg",post.getPicture());
+                                        postDetailActivity.putExtra("postKey",post.getPostKey());
+                                        postDetailActivity.putExtra("userPic", post.getUserPhoto());
+
+                                        long timestamp=(long)post.getTimeStamp();
+                                        postDetailActivity.putExtra("postDate",timestamp);
+
+
+                                        startActivity(postDetailActivity);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
 
                             } else {
                                 Toast.makeText(getActivity(), "Invalid code", Toast.LENGTH_LONG).show();
