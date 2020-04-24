@@ -139,6 +139,10 @@ public class SettingsFragment extends Fragment {
                                 UserListItem userListItem = new UserListItem(currentUser.getUid());
                                 myRef3.setValue(userListItem);
 
+                                eventcode.setText("");
+
+                                Toast.makeText(getActivity(), "Event joined", Toast.LENGTH_LONG).show();
+
                             } else {
                                 Toast.makeText(getActivity(), "Invalid code", Toast.LENGTH_LONG).show();
                             }

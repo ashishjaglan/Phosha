@@ -156,6 +156,7 @@ public class PostDetailActivity extends AppCompatActivity {
         event_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                popup_evcode.setText(PostKey);
                 popup_event_code.show();
             }
         });
@@ -174,7 +175,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
         popup_evcode=popup_event_code.findViewById(R.id.popup_postid);
 
-        popup_evcode.setText(PostKey);
+
 
     }
 
