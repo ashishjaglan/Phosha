@@ -81,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
                                updateUI();
                            }else{
                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                               loginBtn.setVisibility(View.VISIBLE);
+                               loginProgress.setVisibility(View.INVISIBLE);
                            }
                         }
                     });

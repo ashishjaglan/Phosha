@@ -1,7 +1,6 @@
 package com.example.blogapp.Activities;
 
 import android.Manifest;
-import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -129,26 +128,9 @@ public class RegisterActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(RegisterActivity.this, "Account created", Toast.LENGTH_SHORT).show();
 
-                            String userid = mAuth.getUid();
 
-                            reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
-                            HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("id", userid);
-                            hashMap.put("username", name);
-                            hashMap.put("imageURL", pickedImgUri.toString());
-                            hashMap.put("email", email);
-
-                            reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        updateUserInfo(name, pickedImgUri, mAuth.getCurrentUser());
-                                    }
-                                }
-                            });
-
-//                            updateUserInfo(name, pickedImgUri, mAuth.getCurrentUser());
+                            updateUserInfo(name, pickedImgUri, mAuth.getCurrentUser(), email);
                         }else{
                             Toast.makeText(RegisterActivity.this, "account creation failed", Toast.LENGTH_SHORT).show();
                             regBtn.setVisibility(View.VISIBLE);
@@ -158,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUserInfo(final String name, Uri pickedImgUri, final FirebaseUser currentUser) {
+    private void updateUserInfo(final String name, final Uri pickedImgUri, final FirebaseUser currentUser, final String email) {
         StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users_photos");
         final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
         imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -172,6 +154,25 @@ public class RegisterActivity extends AppCompatActivity {
                                 .setPhotoUri(uri)
                                 .build();
 
+
+                        String userid = mAuth.getUid();
+
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+
+                        HashMap<String, String> hashMap = new HashMap<>();
+                        hashMap.put("id", userid);
+                        hashMap.put("username", name);
+                        hashMap.put("imageURL", uri.toString());
+                        hashMap.put("email", email);
+
+                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(RegisterActivity.this, "Registering...", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
 
                         currentUser.updateProfile(profileUpdate)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
