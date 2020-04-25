@@ -36,6 +36,7 @@ import com.example.blogapp.Fragments.ProfileFragment;
 import com.example.blogapp.Fragments.SettingsFragment;
 import com.example.blogapp.Models.Post;
 import com.example.blogapp.Models.PostListItem;
+import com.example.blogapp.Models.User;
 import com.example.blogapp.Models.UserListItem;
 import com.example.blogapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,8 +44,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -249,7 +253,23 @@ public class Home extends AppCompatActivity
         FirebaseDatabase database3 = FirebaseDatabase.getInstance();
         DatabaseReference myRef3 = database3.getReference("Post's_user_list").child(key).push();
         String key3=myRef3.getKey();
-        UserListItem userListItem = new UserListItem(currentUser.getUid());
+
+        final String[] username = new String[1];
+        DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                username[0] =user.getUsername();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        UserListItem userListItem = new UserListItem(currentUser.getUid(),currentUser.getPhotoUrl().toString(), username[0]);
         myRef3.setValue(userListItem);
     }
 
