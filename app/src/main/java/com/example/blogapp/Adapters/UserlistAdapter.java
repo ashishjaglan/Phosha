@@ -32,7 +32,7 @@ public class UserlistAdapter extends RecyclerView.Adapter<UserlistAdapter.UserVi
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder userViewHolder, int i) {
 
-        userViewHolder.usrname.setText(mData.get(i).getUsesrname());
+        userViewHolder.usrname.setText(mData.get(i).getUsername());
         Glide.with(mContext).load(mData.get(i).getUserPhoto()).into(userViewHolder.userpic);
 
     }

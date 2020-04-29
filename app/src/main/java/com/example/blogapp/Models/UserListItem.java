@@ -3,12 +3,12 @@ package com.example.blogapp.Models;
 public class UserListItem {
     String userid;
     String userPhoto;
-    String usesrname;
+    String username;
 
     public UserListItem(String userid, String userPhoto, String username) {
         this.userid = userid;
         this.userPhoto = userPhoto;
-        this.usesrname=username;
+        this.username=username;
     }
 
 
@@ -31,11 +31,11 @@ public class UserListItem {
         this.userPhoto = userPhoto;
     }
 
-    public String getUsesrname() {
-        return usesrname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsesrname(String usesrname) {
-        this.usesrname = usesrname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

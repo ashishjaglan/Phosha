@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -70,7 +71,7 @@ public class Home extends AppCompatActivity
     ProgressBar popupClickProgress;
     FloatingActionButton fab;
     private Uri pickedImgUri=null;
-
+    Drawable src;
 
 
     @Override
@@ -161,7 +162,7 @@ public class Home extends AppCompatActivity
         if(resultCode==RESULT_OK && requestCode== REQUESCODE && data!= null){
             pickedImgUri = data.getData();
             popupPostImg.setImageURI(pickedImgUri);
-
+            src=popupPostImg.getBackground();
         }
     }
 
@@ -185,7 +186,7 @@ public class Home extends AppCompatActivity
                 popupClickProgress.setVisibility(View.VISIBLE);
                 popupAddBtn.setVisibility(View.INVISIBLE);
 
-                if(!popupTitle.getText().toString().isEmpty() && !popupDesc.getText().toString().isEmpty() && popupPostImg!=null){
+                if(!popupTitle.getText().toString().isEmpty() && !popupDesc.getText().toString().isEmpty() && pickedImgUri!=null){
 
                     StorageReference storageReference= FirebaseStorage.getInstance().getReference().child("blog_images");
                     final StorageReference imageFilePath = storageReference.child(pickedImgUri.getLastPathSegment());
@@ -242,6 +243,11 @@ public class Home extends AppCompatActivity
                 popAddPost.dismiss();
             }
         });
+
+        popupTitle.setText("");
+        popupDesc.setText("");
+        popupPostImg.setImageURI(null);
+        popupPostImg.setBackground(src);
 
         FirebaseDatabase database2 = FirebaseDatabase.getInstance();
         DatabaseReference myRef2 = database2.getReference("Users's_post_list").child(currentUser.getUid()).push();
@@ -331,8 +337,8 @@ public class Home extends AppCompatActivity
 
         } else if(id==R.id.nav_signout){
             FirebaseAuth.getInstance().signOut();
-            Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(loginActivity);
+            Intent registerActivity = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(registerActivity);
             finish();
         }
 

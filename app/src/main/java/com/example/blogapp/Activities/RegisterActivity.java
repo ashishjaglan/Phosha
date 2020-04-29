@@ -39,6 +39,8 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    static boolean calledAlready = false;
+
     ImageView regUserPic;
     static int PReqCode=1;
     static int REQUESCODE=1;
@@ -51,11 +53,19 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressBar regProgress;
     TextView tv;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        if (!calledAlready)
+        {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        }
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
